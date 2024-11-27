@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Chord</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Guess the Chord!</h1>
+    <h3>Listen to the sample and guess the chord:</h3>
+    
+    <audio id="audio" controls>
+        <source src="{{ url_for('serve_sample', filename=sample) }}" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+
+    <br><br>
+
+    <form action="{{ url_for('guess') }}" method="get">
+        <input type="text" id="guess" name="user_guess" placeholder="Enter chord (e.g. G#m)" autocomplete="off" required>
+        <input type="hidden" name="sample" value="{{ sample }}">
+        <button type="submit">Guess</button>
+    </form>
+
+    <div id="result" class="result {{ 'hidden' if not result_color else '' }}">
+        <p id="result-text" style="color: {{ result_color }}">{{ result }}</p>
+    </div>
+
+    <script>
+        // Automatically move to another chord after a guess is made
+        document.querySelector("form").onsubmit = function() {
+            setTimeout(function() {
+                window.location.reload(); // Reload the page to get a new sample
+            }, 1500);  // Wait a bit before reloading
+        };
+    </script>
+</body>
+</html>
