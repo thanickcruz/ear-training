@@ -1,0 +1,125 @@
+/* General styles */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #F7D1CD; /* Soft background for warmth */
+        color: #735D78; /* Primary text color for readability */
+        margin: 0;
+        padding: 0;
+    }
+
+    h1, h3 {
+        color: #735D78; /* Deep contrast for headers */
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    /* Center content */
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    /* Audio player */
+    audio {
+        margin-top: 20px;
+        border: 2px solid #D1B3C4; /* Accent color border */
+        border-radius: 10px;
+        background-color: #D1B3C4; /* Subtle highlight */
+    }
+
+    /* Form styling */
+    form {
+        margin-top: 20px;
+    }
+
+    input[type="text"] {
+        padding: 10px;
+        border: 2px solid #D1B3C4;
+        border-radius: 5px;
+        outline: none;
+        font-size: 1rem;
+        width: 250px;
+        transition: 0.3s ease;
+    }
+
+    input[type="text"]:focus {
+        border-color: #735D78;
+        background-color: #F7D1CD;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #F7D1CD; /* Light text color */
+        background-color: #735D78; /* Deep contrast button */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #D1B3C4; /* Soft hover transition */
+        color: #735D78;
+    }
+
+    /* Result display */
+    .result {
+        margin-top: 20px;
+        padding: 10px;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        transition: 0.3s ease;
+    }
+
+    .result.hidden {
+        display: none;
+    }
+
+    .result.correct {
+        background-color: #D6E4E5; /* A soft greenish color for success */
+        color: #3A6351;
+    }
+
+    .result.incorrect {
+        background-color: #F7D1CD; /* A slightly darker red for errors */
+        color: #735D78;
+    }
+
+    .button-row {
+        display: flex;
+        justify-content: center;
+        margin: 10px 0;
+    }
+    
+    button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #F7D1CD;
+        background-color: #735D78;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+        transition: 0.3s ease;
+    }
+    
+    button:hover {
+        background-color: #D1B3C4;
+        color: #735D78;
+    }
+    

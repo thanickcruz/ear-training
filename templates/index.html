@@ -4,25 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guess the Chord</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-        .result {
-            margin-top: 20px;
-            font-weight: bold;
-        }
-        .hidden {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>Guess the Chord!</h1>
     <h3>Listen to the sample and guess the chord:</h3>
-    
+
     <audio id="audio" controls>
         <source src="{{ url_for('serve_sample', filename=sample) }}" type="audio/wav">
         Your browser does not support the audio element.
@@ -30,23 +17,57 @@
 
     <br><br>
 
-    <form action="{{ url_for('guess') }}" method="get">
-        <input type="text" id="guess" name="user_guess" placeholder="Enter chord (e.g. G#m)" autocomplete="off" required>
+    <form action="{{ url_for('guess') }}" method="post">
         <input type="hidden" name="sample" value="{{ sample }}">
-        <button type="submit">Guess</button>
+
+        <!-- Row for Major chords -->
+        <h3>Major Chords</h3>
+        <div class="button-row">
+            <button type="submit" name="user_guess" value="C">C</button>
+            <button type="submit" name="user_guess" value="C#">C#</button>
+            <button type="submit" name="user_guess" value="D">D</button>
+            <button type="submit" name="user_guess" value="D#">D# / Eb</button>
+            <button type="submit" name="user_guess" value="E">E</button>
+            <button type="submit" name="user_guess" value="F">F</button>
+            <button type="submit" name="user_guess" value="F#">F# / Gb</button>
+            <button type="submit" name="user_guess" value="G">G</button>
+            <button type="submit" name="user_guess" value="G#">G# / Ab</button>
+            <button type="submit" name="user_guess" value="A">A</button>
+            <button type="submit" name="user_guess" value="A#">A# / Bb</button>
+            <button type="submit" name="user_guess" value="B">B</button>
+        </div>
+
+        <!-- Row for Minor chords -->
+        <h3>Minor Chords</h3>
+        <div class="button-row">
+            <button type="submit" name="user_guess" value="Cm">Cm</button>
+            <button type="submit" name="user_guess" value="C#m">C#m</button>
+            <button type="submit" name="user_guess" value="Dm">Dm</button>
+            <button type="submit" name="user_guess" value="D#m">D#m / Ebm</button>
+            <button type="submit" name="user_guess" value="Em">Em</button>
+            <button type="submit" name="user_guess" value="Fm">Fm</button>
+            <button type="submit" name="user_guess" value="F#m">F#m / Gbm</button>
+            <button type="submit" name="user_guess" value="Gm">Gm</button>
+            <button type="submit" name="user_guess" value="G#m">G#m / Abm</button>
+            <button type="submit" name="user_guess" value="Am">Am</button>
+            <button type="submit" name="user_guess" value="A#m">A#m / Bbm</button>
+            <button type="submit" name="user_guess" value="Bm">Bm</button>
+        </div>
     </form>
 
-    <div id="result" class="result {{ 'hidden' if not result_color else '' }}">
-        <p id="result-text" style="color: {{ result_color }}">{{ result }}</p>
+    {% if score %}
+    <div class="score">
+        <p>Your Score: {{ score }}</p>
     </div>
+    {% endif %}
 
-    <script>
-        // Automatically move to another chord after a guess is made
-        document.querySelector("form").onsubmit = function() {
-            setTimeout(function() {
-                window.location.reload(); // Reload the page to get a new sample
-            }, 1500);  // Wait a bit before reloading
-        };
-    </script>
+    {% if result %}
+    <div id="result" class="result">
+        <p id="result-text" style="color: {{ result_color }}">{{ result }}</p>
+        <a href="{{ url_for('next_sample') }}">
+            <button>Next</button>
+        </a>
+    </div>
+    {% endif %}
 </body>
 </html>
