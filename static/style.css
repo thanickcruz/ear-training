@@ -122,4 +122,14 @@
         background-color: #D1B3C4;
         color: #735D78;
     }
+
+    a {
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
     

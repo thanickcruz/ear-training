@@ -3,7 +3,7 @@ import random
 import os
 
 app = Flask(__name__)
-app.secret_key = ""  # Required for session management
+app.secret_key = "yoo"  # Required for session management
 
 # Path to the audio samples
 SAMPLES_DIR = os.path.join(app.static_folder, 'samples')
@@ -17,6 +17,8 @@ def initialize_session():
         session['correct_answers'] = 0
     if 'total_samples' not in session:
         session['total_samples'] = 0
+    if 'response_log' not in session:
+        session['response_log'] = {}  # Track responses per sample
 
 @app.route('/')
 def index():
@@ -24,15 +26,25 @@ def index():
     sample = random.choice(sample_files)
     return render_template('index.html', sample=sample, result=None, result_color=None, score=None)
 
+@app.route('/tracks')
+def tracks():
+    initialize_session()  # If session variables are needed
+    # Example Spotify track data (replace with your real data)
+    spotify_tracks = [
+        "https://open.spotify.com/embed/track/1",
+        "https://open.spotify.com/embed/track/2",
+        "https://open.spotify.com/embed/track/3",
+    ]
+    return render_template('tracks.html', spotify_tracks=spotify_tracks)
+
 @app.route('/static/samples/<filename>')
 def serve_sample(filename):
     return send_from_directory(SAMPLES_DIR, filename)
 
 @app.route('/guess', methods=['POST'])
 def guess():
-    initialize_session()  # Ensure session variables are set
+    initialize_session()
 
-    # Enharmonic equivalents
     enharmonic_map = {
         "A#": "Bb", "Bb": "A#",
         "C#": "Db", "Db": "C#",
@@ -50,27 +62,35 @@ def guess():
     sample = request.form.get('sample')
     chord = sample.split('_')[0]
 
-    # Update session variables
+    if 'response_log' not in session:
+        session['response_log'] = {}
+
     session['total_samples'] += 1
 
     if user_guess == chord or enharmonic_map.get(user_guess) == chord:
         session['correct_answers'] += 1
-        result = "Correct!"
-        result_color = "green"
+        result = "Correct"
     else:
-        result = f"Incorrect! The correct chord was {chord}"
-        result_color = "red"
+        result = "Incorrect"
 
-    # Calculate the score
+    # Ensure each sample logs result and guessed response
+    session['response_log'][sample] = (result, user_guess)
+
     score = f"{session['correct_answers']} / {session['total_samples']}"
 
-    return render_template('index.html', sample=sample, result=result, result_color=result_color, score=score)
+    return render_template('index.html', sample=sample, result=result, result_color="green" if result == "Correct" else "red", score=score)
+
 
 @app.route('/next')
 def next_sample():
     initialize_session()  # Ensure session variables are set
     sample = random.choice(sample_files)
     return render_template('index.html', sample=sample, result=None, result_color=None, score=f"{session['correct_answers']} / {session['total_samples']}")
+
+@app.route('/log')
+def log():
+    initialize_session()  # Ensure session variables are set
+    return render_template('log.html', response_log=session['response_log'])
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -10,10 +10,7 @@
     <h1>Guess the Chord!</h1>
     <h3>Listen to the sample and guess the chord:</h3>
 
-    <audio id="audio" controls>
-        <source src="{{ url_for('serve_sample', filename=sample) }}" type="audio/wav">
-        Your browser does not support the audio element.
-    </audio>
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/3bnVBN67NBEzedqQuWrpP4?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
     <br><br>
 
@@ -73,3 +70,4 @@
     <a href="{{ url_for('log') }}">View Results</a>
 </body>
 </html>
+
