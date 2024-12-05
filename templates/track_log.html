@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Response Log</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .correct {
+            background-color: rgba(144, 238, 144, 0.5); /* Light green */
+        }
+        .incorrect {
+            background-color: rgba(255, 99, 71, 0.5); /* Light red */
+        }
+    </style>
+</head>
+<body>
+    <h1>Response Log</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Key Signature</th>
+                <th>Result</th>
+                <th>Guessed Response</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key_signature, (result, guess) in response_log.items() %}
+            <tr class="{{ 'correct' if result == 'Correct' else 'incorrect' }}">
+                <td>{{ key_signature }}</td>
+                <td>{{ result }}</td>
+                <td>{{ guess }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="/tracks">Back to Training</a>
+</body>
+</html>
