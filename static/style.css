@@ -78,6 +78,7 @@
 
     /* Result display */
     .result {
+        text-align: center;
         margin-top: 20px;
         padding: 10px;
         font-size: 1.2rem;
@@ -91,6 +92,7 @@
 
     .result.correct {
         background-color: #D6E4E5; /* A soft greenish color for success */
+        font-weight: bold;
         color: #3A6351;
     }
 

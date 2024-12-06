@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 import re
 
 app = Flask(__name__)
-app.secret_key = "yooo"  # Required for session management
+app.secret_key = "newkey"  # Required for session management
 
 # Get hidden spotify client credentials
 sp_oauth=spotify_oauth()
@@ -31,7 +31,7 @@ def get_track_key(track_id):
     url=f'https://songdata.io/track/{track_id}'
     
     # Regular expression pattern to match key signatures like "Ab Minor", "D Major", etc.
-    key_signature_pattern = r'\b([A-Ga-g])(#|b)?\s?(Major|Minor)\b'
+    key_signature_pattern = r'\b([A-Ga-g])(#|b|♯|♭)?\s?(Major|Minor)\b'
 
     try:
     # Sending GET request
@@ -56,6 +56,10 @@ def get_track_key(track_id):
                 
                 # Format the key signature
                 key_signature = f"{note}{accidental.lower()}{'m' if scale_type == 'Minor' else ''}"
+
+                if ('♭' in key_signature) or ('♯' in key_signature):
+                    key_signature=key_signature.replace('♭','b')
+                    key_signature=key_signature.replace('♯','#')
                     
                 return key_signature
             else:
@@ -82,9 +86,10 @@ def get_random_track(sp):
     playlists = sp.current_user_playlists()
     if not playlists['items']:
         return {"error": "No playlists found for the user."}
+    playlist_items = [item for item in playlists['items'] if item is not None] # remove nulls
 
     # Select a random playlist
-    random_playlist = random.choice(playlists['items'])
+    random_playlist = random.choice(playlist_items)
     playlist_id = random_playlist['id']
 
     # Get tracks in the selected playlist

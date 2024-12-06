@@ -2,3 +2,4 @@ samples/
 ear_training_venv/
 database/database.ini
 spotify/creds.yaml
+cache*
