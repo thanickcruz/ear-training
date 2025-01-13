@@ -305,4 +305,4 @@ def track_log():
     return render_template('track_log.html', response_log=session['response_log'])
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
