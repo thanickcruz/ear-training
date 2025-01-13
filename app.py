@@ -163,7 +163,7 @@ def callback():
     token_info = sp_oauth.get_access_token(code)
 
     # Debugging line to check token_info
-    print(f"Token Info: {token_info}")
+    #print(f"Token Info: {token_info}")
 
     session['token_info'] = token_info
 
